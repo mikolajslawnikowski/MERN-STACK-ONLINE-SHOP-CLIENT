@@ -1,14 +1,20 @@
 import { useProductsContext } from "../hooks/useProductsContext";
 
 // date fns
-import { formatDistanceToNow } from "date-fns/formatDistanceToNow";
+import { format } from "date-fns";
 
 const ProductDetails = ({ product }) => {
   const { dispatch } = useProductsContext();
 
   const handleClick = async () => {
+    // if (!user) {
+    //   return;
+    // }
     const response = await fetch("/api/products/" + product._id, {
       method: "DELETE",
+      // headers: {
+      //   Authorization: "Bearer ${user.token}",
+      // },
     });
     const json = await response.json();
 
@@ -28,9 +34,7 @@ const ProductDetails = ({ product }) => {
         <strong>Cena: </strong>
         {product.price}
       </p>
-      <p>
-        {formatDistanceToNow(new Date(product.createdAt), { addSufix: true })}
-      </p>
+      <p>{format(new Date(product.createdAt), "dd-LL-yyyy")}</p>
       <span className="material-symbols-outlined" onClick={handleClick}>
         delete
       </span>

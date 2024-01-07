@@ -1,4 +1,5 @@
 import { useProductsContext } from "../hooks/useProductsContext";
+import { Link } from "react-router-dom";
 
 // date fns
 import { format } from "date-fns";
@@ -25,7 +26,9 @@ const ProductDetails = ({ product }) => {
 
   return (
     <div className="product-details">
-      <h4>{product.name}</h4>
+      <h4>
+        <Link to={`/${product._id}`}> {product.name} </Link>
+      </h4>
       <p>
         <strong>Opis: </strong>
         {product.description}
@@ -33,6 +36,10 @@ const ProductDetails = ({ product }) => {
       <p>
         <strong>Cena: </strong>
         {product.price}
+      </p>
+      <p>
+        <strong>ID: </strong>
+        {product._id}
       </p>
       <p>{format(new Date(product.createdAt), "dd-LL-yyyy")}</p>
       <span className="material-symbols-outlined" onClick={handleClick}>

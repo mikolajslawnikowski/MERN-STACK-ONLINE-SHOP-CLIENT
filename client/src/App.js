@@ -7,6 +7,7 @@ import Navbar from "./components/Navbar";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
+import ProductPage from "./pages/ProductPage";
 
 function App() {
   const { user } = useAuthContext();
@@ -32,6 +33,7 @@ function App() {
               path="/dashboard"
               element={user ? <Dashboard /> : <Navigate to="/" />}
             />
+            <Route path="/:id" element={<ProductPage />} />
           </Routes>
         </div>
       </BrowserRouter>

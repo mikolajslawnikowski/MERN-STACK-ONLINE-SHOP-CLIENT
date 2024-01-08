@@ -22,14 +22,29 @@ export const useLogin = () => {
       setIsLoading(false);
       setError(json.error);
     }
+
     if (response.ok) {
       // save the user to local storage
       localStorage.setItem("user", JSON.stringify(json));
 
-      // update the auth context
-      dispatch({ type: "LOGIN", payload: json });
+      const user = JSON.parse(localStorage.getItem("user"));
 
-      setIsLoading(false);
+      const infoUserResponse = await fetch("/api/user/info", {
+        headers: { Authorization: `Bearer ${user.token}` },
+      });
+
+      const infoUserJSON = await infoUserResponse.json();
+
+      if (!infoUserResponse.ok) {
+        setIsLoading(false);
+        setError(infoUserJSON.error);
+      }
+
+      if (infoUserResponse.ok) {
+        // update the auth context
+        dispatch({ type: "LOGIN", payload: infoUserJSON });
+        setIsLoading(false);
+      }
     }
   };
 

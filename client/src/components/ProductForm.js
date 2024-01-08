@@ -12,6 +12,8 @@ const ProductForm = () => {
   const [quantity, setQuantity] = useState("");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
+  const [gender, setGender] = useState("");
+  const [category, setCategory] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -93,6 +95,31 @@ const ProductForm = () => {
         value={quantity}
         className={emptyFields.includes("quantity") ? "error" : ""}
       />
+
+      <label>Product gender:</label>
+      <select
+        onChange={(e) => setGender(e.target.value)}
+        value={gender}
+        className={emptyFields.includes("gender") ? "error" : ""}
+      >
+        <option value="">Select gender</option>
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+      </select>
+
+      <label>Product category:</label>
+      <select
+        onChange={(e) => setCategory(e.target.value)}
+        value={category}
+        className={emptyFields.includes("category") ? "error" : ""}
+      >
+        <option value="">Select category:</option>
+        <option value="hat">Hats</option>
+        <option value="hoodies">Hoodies</option>
+        <option value="shirts">Shirts</option>
+        <option value="pants">Pants</option>
+        <option value="shoes">Shoes</option>
+      </select>
 
       <button type="submit">Add Product</button>
       {error && <div className="error">{error}</div>}

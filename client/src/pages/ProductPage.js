@@ -19,7 +19,15 @@ const ProductPage = () => {
   }, [id]);
 
   return (
-    <div>{product ? <h1>{product.name}</h1> : <p>Loading product...</p>}</div>
+    <div>
+      {product ? (
+        <h1>
+          Name: {product.name} ID: {product.id}
+        </h1>
+      ) : (
+        <p>Loading product...</p>
+      )}
+    </div>
     // <div>
     //   <h2>Product Page</h2>
     // </div>

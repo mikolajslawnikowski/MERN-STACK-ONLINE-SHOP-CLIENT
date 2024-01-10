@@ -1,36 +1,38 @@
 import { useState } from "react";
 import { useProductsContext } from "../hooks/useProductsContext";
-// import { useAuthContext } from "../hooks/useAuthContext";
 
 const ProductForm = () => {
   const { dispatch } = useProductsContext();
-  // const { user } = useAuthContext();
   const [name, setName] = useState("");
   const [photo, setPhoto] = useState("");
   const [price, setPrice] = useState("");
-  const [description, setDescription] = useState("");
+  const [gender, setGender] = useState("");
+  const [category, setCategory] = useState("");
+  const [shortDescription, setShortDescription] = useState("");
+  const [longDescription, setLongDescription] = useState("");
   const [quantity, setQuantity] = useState("");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
-  const [gender, setGender] = useState("");
-  const [category, setCategory] = useState("");
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // if (!user) {
-    //   setError("You must be logged in to add a product.");
-    //   return;
-    // }
-
-    const product = { name, photo, price, description, quantity };
+    const product = {
+      name,
+      photo,
+      price,
+      gender,
+      category,
+      shortDescription,
+      longDescription,
+      quantity,
+    };
 
     const response = await fetch("/api/products", {
       method: "POST",
       body: JSON.stringify(product),
       headers: {
         "Content-Type": "application/json",
-        // Authorization: "Bearer ${user.token}",
       },
     });
     const json = await response.json();
@@ -43,7 +45,10 @@ const ProductForm = () => {
       setName("");
       setPhoto("");
       setPrice("");
-      setDescription("");
+      setGender("");
+      setCategory("");
+      setShortDescription("");
+      setLongDescription("");
       setQuantity("");
       setError(null);
       setEmptyFields([]);
@@ -80,12 +85,20 @@ const ProductForm = () => {
         className={emptyFields.includes("price") ? "error" : ""}
       />
 
-      <label>Product description:</label>
+      <label>Product short description:</label>
       <input
         type="text"
-        onChange={(e) => setDescription(e.target.value)}
-        value={description}
-        className={emptyFields.includes("description") ? "error" : ""}
+        onChange={(e) => setShortDescription(e.target.value)}
+        value={shortDescription}
+        className={emptyFields.includes("shortDescription") ? "error" : ""}
+      />
+
+      <label>Product long description:</label>
+      <input
+        type="text"
+        onChange={(e) => setLongDescription(e.target.value)}
+        value={longDescription}
+        className={emptyFields.includes("longDescription") ? "error" : ""}
       />
 
       <label>Product quantity:</label>
@@ -114,7 +127,7 @@ const ProductForm = () => {
         className={emptyFields.includes("category") ? "error" : ""}
       >
         <option value="">Select category:</option>
-        <option value="hat">Hats</option>
+        <option value="hats">Hats</option>
         <option value="hoodies">Hoodies</option>
         <option value="shirts">Shirts</option>
         <option value="pants">Pants</option>

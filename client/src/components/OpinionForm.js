@@ -1,10 +1,14 @@
 import { useState } from "react";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useOpinionsContext } from "../hooks/useOpinionsContext";
+import { FaStar } from "react-icons/fa";
 
 const OpinionForm = ({ id }) => {
   const { user } = useAuthContext();
   const [opinionText, setOpinionText] = useState("");
+  const [ratingValue, setRatingValue] = useState(null);
+  const [currentRating, setCurrentRating] = useState(null);
+  const [ratingHover, setRatingHover] = useState(null);
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
   // TEST CONTEXT
@@ -18,6 +22,7 @@ const OpinionForm = ({ id }) => {
       authorName: user.name,
       authorSurname: user.surname,
       opinionText,
+      ratingValue,
     };
 
     const response = await fetch("/api/opinions", {
@@ -35,6 +40,7 @@ const OpinionForm = ({ id }) => {
     }
     if (response.ok) {
       setOpinionText("");
+      setRatingValue(null);
       setError(null);
       setEmptyFields([]);
       console.log("New Opinion added successfully!", json);
@@ -45,6 +51,42 @@ const OpinionForm = ({ id }) => {
 
   return (
     <form onSubmit={handleSubmit}>
+      <label>Add rating:</label>
+      <div className="stars">
+        {[...Array(5)].map((star, i) => {
+          const ratingValue = i + 1;
+
+          return (
+            <label>
+              <input
+                type="radio"
+                name="rating"
+                value={ratingValue}
+                onClick={() => {
+                  setRatingValue(ratingValue);
+                  setCurrentRating(ratingValue);
+                }}
+              />
+              {/* <FaStar
+                size={25}
+                color={ratingValue <= currentRating ? "#ffc107" : "#e4e5e9"}
+                className="star"
+              /> */}
+              <FaStar
+                size={20}
+                color={
+                  ratingValue <= (ratingHover || currentRating)
+                    ? "#ffc107"
+                    : "#e4e5e9"
+                }
+                className="star"
+                onMouseEnter={() => setRatingHover(ratingValue)}
+                onMouseLeave={() => setRatingHover(null)}
+              />
+            </label>
+          );
+        })}
+      </div>
       <label>Add opinion:</label>
       <textarea
         onChange={(e) => setOpinionText(e.target.value)}

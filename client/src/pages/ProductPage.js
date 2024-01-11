@@ -3,8 +3,24 @@ import { useParams } from "react-router-dom";
 import OpinionForm from "../components/OpinionForm";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { format } from "date-fns";
+import { FaStar } from "react-icons/fa";
+import Stars from "../components/Stars";
 // TEST CONTEXT
 import { useOpinionsContext } from "../hooks/useOpinionsContext";
+
+// function calculateAverageRating(opinions) {
+//   const total = opinions.reduce((acc, opinion) => acc + opinion.ratingValue, 0);
+//   return Math.round((total / opinions.length) * 2) / 2;
+// }
+
+function calculateAverageRating(opinions) {
+  if (!opinions) {
+    return 0;
+  }
+
+  const total = opinions.reduce((acc, opinion) => acc + opinion.ratingValue, 0);
+  return Math.round((total / opinions.length) * 2) / 2;
+}
 
 const ProductPage = () => {
   const { id } = useParams();
@@ -57,12 +73,31 @@ const ProductPage = () => {
     fetchOpinions();
   }, [id, dispatch]);
 
+  const handleClick = async (id) => {
+    const response = await fetch("/api/opinions/" + id, {
+      method: "DELETE",
+    });
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      console.log(json.error);
+    }
+
+    if (response.ok) {
+      dispatch({ type: "DELETE_OPINION", payload: json });
+    }
+  };
+
   return (
     <div>
       {product ? (
         <>
           <p>Name: {product.name}</p>
           <p>ID: {product._id}</p>
+          <p>
+            Average Rating: <Stars rating={calculateAverageRating(opinions)} />
+          </p>
           <img src={product.photo} alt={product.name} />
           <p>Gender: {product.gender}</p>
           <p>Category: {product.category}</p>
@@ -93,8 +128,21 @@ const ProductPage = () => {
                 <p>
                   Author: {opinion.authorName} {opinion.authorSurname}
                 </p>
+                {/* <p>Rating: {opinion.ratingValue}</p> */}
+                <p>
+                  Rating: <Stars rating={opinion.ratingValue} />
+                </p>
                 <p>Opinion: {opinion.opinionText}</p>
+
                 <p>Date: {format(new Date(opinion.createdAt), "dd/MM/yyyy")}</p>
+                {user && user.admin && (
+                  <span
+                    className="material-symbols-outlined"
+                    onClick={() => handleClick(opinion._id)}
+                  >
+                    DELETE
+                  </span>
+                )}
               </div>
             ))
           )}

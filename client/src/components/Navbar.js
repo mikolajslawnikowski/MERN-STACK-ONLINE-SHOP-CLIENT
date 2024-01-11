@@ -11,7 +11,7 @@ const Navbar = () => {
   };
 
   return (
-    <header>
+    <header className="bg-green-50">
       <div className="container">
         <Link to="/">
           <h1>Online Store</h1>

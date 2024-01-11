@@ -1,11 +1,13 @@
 import { useProductsContext } from "../hooks/useProductsContext";
 import { Link } from "react-router-dom";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 // date fns
 import { format } from "date-fns";
 
 const ProductDetails = ({ product }) => {
   const { dispatch } = useProductsContext();
+  const { user } = useAuthContext();
 
   const handleClick = async () => {
     // if (!user) {
@@ -42,9 +44,11 @@ const ProductDetails = ({ product }) => {
         {product._id}
       </p>
       <p>{format(new Date(product.createdAt), "dd-LL-yyyy")}</p>
-      <span className="material-symbols-outlined" onClick={handleClick}>
-        delete
-      </span>
+      {user && user.admin && (
+        <span className="material-symbols-outlined" onClick={handleClick}>
+          DELETE
+        </span>
+      )}
     </div>
   );
 };

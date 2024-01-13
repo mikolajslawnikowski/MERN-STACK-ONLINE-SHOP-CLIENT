@@ -10,14 +10,8 @@ const ProductDetails = ({ product }) => {
   const { user } = useAuthContext();
 
   const handleClick = async () => {
-    // if (!user) {
-    //   return;
-    // }
     const response = await fetch("/api/products/" + product._id, {
       method: "DELETE",
-      // headers: {
-      //   Authorization: "Bearer ${user.token}",
-      // },
     });
     const json = await response.json();
 
@@ -32,16 +26,29 @@ const ProductDetails = ({ product }) => {
         <Link to={`/${product._id}`}> {product.name} </Link>
       </h4>
       <p>
-        <strong>Opis: </strong>
-        {product.description}
+        <strong>ID: </strong>
+        {product._id}
+      </p>
+      <img src={product.photo} alt={product.name} />
+      <p>
+        <strong>Gender: </strong>
+        {product.gender}
       </p>
       <p>
-        <strong>Cena: </strong>
+        <strong>Category: </strong>
+        {product.category}
+      </p>
+      <p>
+        <strong>Description: </strong>
+        {product.shortDescription}
+      </p>
+      <p>
+        <strong>Price: </strong>
         {product.price}
       </p>
       <p>
-        <strong>ID: </strong>
-        {product._id}
+        <strong>Quantity: </strong>
+        {product.quantity}{" "}
       </p>
       <p>{format(new Date(product.createdAt), "dd-LL-yyyy")}</p>
       {user && user.admin && (

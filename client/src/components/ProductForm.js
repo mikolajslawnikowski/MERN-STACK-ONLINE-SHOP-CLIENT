@@ -127,9 +127,9 @@ const ProductForm = () => {
         className={emptyFields.includes("category") ? "error" : ""}
       >
         <option value="">Select category:</option>
-        <option value="hats">Hats</option>
+        <option value="tshirts">T-shirts</option>
         <option value="hoodies">Hoodies</option>
-        <option value="shirts">Shirts</option>
+        <option value="jackets">Jackets</option>
         <option value="pants">Pants</option>
         <option value="shoes">Shoes</option>
       </select>

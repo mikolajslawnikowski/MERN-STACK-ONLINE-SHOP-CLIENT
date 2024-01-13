@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useProductsContext } from "../hooks/useProductsContext";
+import { Link } from "react-router-dom";
+import GenderButtons from "../components/GenderButtons";
 // import { useAuthContext } from "../hooks/useAuthContext";
 
 // components
@@ -8,16 +10,11 @@ import ProductDetails from "../components/ProductDetails";
 
 const Home = () => {
   const { products, dispatch } = useProductsContext();
-  // const { user } = useAuthContext();
 
   useEffect(() => {
     const fetchProducts = async () => {
       const response = await fetch("/api/products");
-      // const response = await fetch("/api/products", {
-      //   headers: {
-      //     Authorization: `Bearer ${user.token}`,
-      //   },
-      // });
+
       const json = await response.json();
 
       if (response.ok) {
@@ -25,22 +22,27 @@ const Home = () => {
       }
     };
 
-    // if (user) {
-    //   fetchProducts();
-    // }
-
     fetchProducts();
   }, [dispatch]);
 
   return (
-    <div className="home">
-      <div className="products">
-        {products &&
-          products.map((product) => (
-            <ProductDetails product={product} key={product._id} />
-          ))}
-      </div>
-      {/* <ProductForm /> */}
+    // <div className="home">
+    //   <div className="products">
+    //     {products &&
+    //       products.map((product) => (
+    //         <ProductDetails product={product} key={product._id} />
+    //       ))}
+    //   </div>
+    // </div>
+    <div>
+      {/* <button>
+        <Link to="/men">MEN</Link>
+      </button>
+
+      <button>
+        <Link to="/women">WOMEN</Link>
+      </button> */}
+      <GenderButtons />
     </div>
   );
 };

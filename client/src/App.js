@@ -8,6 +8,8 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import Dashboard from "./pages/Dashboard";
 import ProductPage from "./pages/ProductPage";
+import MenPage from "./pages/MenPage";
+import WomenPage from "./pages/WomenPage";
 
 function App() {
   const { user } = useAuthContext();
@@ -34,6 +36,8 @@ function App() {
               element={user ? <Dashboard /> : <Navigate to="/" />}
             />
             <Route path="/:id" element={<ProductPage />} />
+            <Route path="/men" element={<MenPage />} />
+            <Route path="/women" element={<WomenPage />} />
           </Routes>
         </div>
       </BrowserRouter>

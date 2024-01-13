@@ -2,9 +2,7 @@ import { useEffect } from "react";
 import { useProductsContext } from "../hooks/useProductsContext";
 import ProductDetails from "../components/ProductDetails";
 import GenderButtons from "../components/GenderButtons";
-
-// date fns
-import { format } from "date-fns";
+import CategoryButtons from "../components/CategoryButtons";
 
 const WomenPage = () => {
   const { products, dispatch } = useProductsContext();
@@ -25,12 +23,9 @@ const WomenPage = () => {
   }, [dispatch]);
 
   return (
-    // <div>
-    //   <h2>DAMSKA STRONA</h2>
-    // </div>
     <div>
       <GenderButtons />
-
+      <CategoryButtons />
       <div className="products">
         {products &&
           products.map((product) => (

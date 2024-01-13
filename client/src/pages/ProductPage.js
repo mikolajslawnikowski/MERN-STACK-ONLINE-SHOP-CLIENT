@@ -3,15 +3,9 @@ import { useParams } from "react-router-dom";
 import OpinionForm from "../components/OpinionForm";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { format } from "date-fns";
-import { FaStar } from "react-icons/fa";
 import Stars from "../components/Stars";
 // TEST CONTEXT
 import { useOpinionsContext } from "../hooks/useOpinionsContext";
-
-// function calculateAverageRating(opinions) {
-//   const total = opinions.reduce((acc, opinion) => acc + opinion.ratingValue, 0);
-//   return Math.round((total / opinions.length) * 2) / 2;
-// }
 
 function calculateAverageRating(opinions) {
   if (!opinions) {
@@ -26,8 +20,6 @@ const ProductPage = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const { user } = useAuthContext();
-  // const [opinions, setOpinions] = useState(null);
-  // TEST CONTEXT
   const { opinions, dispatch } = useOpinionsContext();
   const sortedOpinions = opinions
     ? opinions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
@@ -44,21 +36,6 @@ const ProductPage = () => {
 
     fetchProduct();
   }, [id]);
-
-  // useEffect(() => {
-  //   const fetchOpinions = async () => {
-  //     const response = await fetch("/api/opinions/");
-  //     const json = await response.json();
-
-  //     if (response.ok) {
-  //       // TEST CONTEXT
-  //       // setOpinions(json);
-  //       dispatch({ type: "SET_OPINIONS", payload: json });
-  //     }
-  //   };
-
-  //   fetchOpinions();
-  // }, [dispatch]);
 
   useEffect(() => {
     const fetchOpinions = async () => {
@@ -110,16 +87,6 @@ const ProductPage = () => {
           ) : (
             <p>Log in to leave an opinion.</p>
           )}
-          {/* {opinions &&
-            sortedOpinions.map((opinion) => (
-              <div key={opinion._id}>
-                <p>
-                  Author: {opinion.authorName} {opinion.authorSurname}
-                </p>
-                <p>Opinion: {opinion.opinionText}</p>
-                <p>Date: {format(new Date(opinion.createdAt), "dd/MM/yyyy")}</p>
-              </div>
-            ))} */}
           {opinions && opinions.length === 0 ? (
             <p>This product has no opinions yet</p>
           ) : (
@@ -128,7 +95,6 @@ const ProductPage = () => {
                 <p>
                   Author: {opinion.authorName} {opinion.authorSurname}
                 </p>
-                {/* <p>Rating: {opinion.ratingValue}</p> */}
                 <p>
                   Rating: <Stars rating={opinion.ratingValue} />
                 </p>

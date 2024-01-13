@@ -32,7 +32,6 @@ export const AuthContextProvider = ({ children }) => {
     };
 
     if (user) {
-      // dispatch({ type: "LOGIN", payload: user });
       getUserData();
     }
   }, []);

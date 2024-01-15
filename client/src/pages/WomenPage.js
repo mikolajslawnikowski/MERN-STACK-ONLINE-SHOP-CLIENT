@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useProductsContext } from "../hooks/useProductsContext";
 import ProductDetails from "../components/ProductDetails";
 import GenderButtons from "../components/GenderButtons";
-import CategoryButtons from "../components/CategoryButtons";
+import WomenCategoryButtons from "../components/WomenCategoryButtons";
 
 const WomenPage = () => {
   const { products, dispatch } = useProductsContext();
@@ -25,7 +25,7 @@ const WomenPage = () => {
   return (
     <div>
       <GenderButtons />
-      <CategoryButtons />
+      <WomenCategoryButtons />
       <div className="products">
         {products &&
           products.map((product) => (

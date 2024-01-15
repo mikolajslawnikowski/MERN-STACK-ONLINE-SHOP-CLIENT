@@ -21,42 +21,42 @@ const ProductDetails = ({ product }) => {
   };
 
   return (
-    <div className="product-details">
-      <h4>
-        <Link to={`/${product._id}`}> {product.name} </Link>
-      </h4>
-      <p>
-        <strong>ID: </strong>
-        {product._id}
-      </p>
-      <img src={product.photo} alt={product.name} />
-      <p>
-        <strong>Gender: </strong>
-        {product.gender}
-      </p>
-      <p>
-        <strong>Category: </strong>
-        {product.category}
-      </p>
-      <p>
-        <strong>Description: </strong>
-        {product.shortDescription}
-      </p>
-      <p>
-        <strong>Price: </strong>
-        {product.price}
-      </p>
-      <p>
-        <strong>Quantity: </strong>
-        {product.quantity}{" "}
-      </p>
-      <p>{format(new Date(product.createdAt), "dd-LL-yyyy")}</p>
-      {user && user.admin && (
-        <span className="material-symbols-outlined" onClick={handleClick}>
-          DELETE
-        </span>
-      )}
-    </div>
+    <Link to={`/${product._id}`}>
+      <div className="product-details">
+        <h4>{product.name}</h4>
+        <p>
+          <strong>ID: </strong>
+          {product._id}
+        </p>
+        <img src={product.photo} alt={product.name} />
+        <p>
+          <strong>Gender: </strong>
+          {product.gender}
+        </p>
+        <p>
+          <strong>Category: </strong>
+          {product.category}
+        </p>
+        <p>
+          <strong>Description: </strong>
+          {product.shortDescription}
+        </p>
+        <p>
+          <strong>Price: </strong>
+          {product.price}
+        </p>
+        <p>
+          <strong>Quantity: </strong>
+          {product.quantity}{" "}
+        </p>
+        <p>{format(new Date(product.createdAt), "dd-LL-yyyy")}</p>
+        {user && user.admin && (
+          <span className="material-symbols-outlined" onClick={handleClick}>
+            DELETE
+          </span>
+        )}
+      </div>{" "}
+    </Link>
   );
 };
 

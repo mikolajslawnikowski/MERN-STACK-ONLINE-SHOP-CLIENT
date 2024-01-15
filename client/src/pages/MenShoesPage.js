@@ -1,0 +1,51 @@
+import { useEffect, useState } from "react";
+import { useAuthContext } from "../hooks/useAuthContext";
+import ProductDetails from "../components/ProductDetails";
+import GenderButtons from "../components/GenderButtons";
+import MenCategoryButtons from "../components/MenCategoryButtons";
+
+const MenShoesPage = () => {
+  const [shoes, setShoes] = useState([]);
+  const { user } = useAuthContext();
+
+  const fetchProducts = (sortOption) => {
+    let url = "/api/products/men/shoes";
+    if (sortOption) {
+      url += `/${sortOption}`;
+    }
+
+    fetch(url)
+      .then((response) => response.json())
+      .then((data) => setShoes(data))
+      .catch((error) => console.error("Error:", error));
+  };
+
+  useEffect(() => {
+    fetchProducts();
+  }, []);
+
+  const handleSortChange = (event) => {
+    fetchProducts(event.target.value);
+  };
+
+  return (
+    <div>
+      <GenderButtons />
+      <MenCategoryButtons />
+      <select onChange={handleSortChange}>
+        <option value="">Sort by...</option>
+        <option value="price_asc">Price (Low to High)</option>
+        <option value="price_desc">Price (High to Low)</option>
+        <option value="date_asc">Date (Oldest to Newest)</option>
+        <option value="date_desc">Date (Newest to Oldest)</option>
+      </select>
+      <div className="products">
+        {shoes.map((shoes) => (
+          <ProductDetails key={shoes.id} product={shoes} user={user} />
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default MenShoesPage;

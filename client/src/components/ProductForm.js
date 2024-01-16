@@ -11,6 +11,8 @@ const ProductForm = () => {
   const [shortDescription, setShortDescription] = useState("");
   const [longDescription, setLongDescription] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [shipping1, setShipping1] = useState(true);
+  const [shipping2, setShipping2] = useState(false);
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
 
@@ -26,6 +28,8 @@ const ProductForm = () => {
       shortDescription,
       longDescription,
       quantity,
+      shipping1,
+      shipping2,
     };
 
     const response = await fetch("/api/products", {
@@ -50,6 +54,8 @@ const ProductForm = () => {
       setShortDescription("");
       setLongDescription("");
       setQuantity("");
+      setShipping1(true);
+      setShipping2(false);
       setError(null);
       setEmptyFields([]);
       console.log("New Product added successfully!", json);
@@ -133,7 +139,23 @@ const ProductForm = () => {
         <option value="pants">Pants</option>
         <option value="shoes">Shoes</option>
       </select>
+      <label>Shipping:</label>
+      <label>
+        <input type="checkbox" value="Post" checked={true} disabled={true} />
+        Post
+      </label>
 
+      <label>
+        <input
+          type="checkbox"
+          value="Courier"
+          checked={shipping2}
+          onChange={() => {
+            setShipping2(!shipping2);
+          }}
+        />
+        Courier
+      </label>
       <button type="submit">Add Product</button>
       {error && <div className="error">{error}</div>}
     </form>

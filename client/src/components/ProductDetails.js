@@ -28,6 +28,10 @@ const ProductDetails = ({ product }) => {
           <strong>ID: </strong>
           {product._id}
         </p>
+        <p>
+          <strong>Rating: </strong>
+          {product.rating}
+        </p>
         <img src={product.photo} alt={product.name} />
         <p>
           <strong>Gender: </strong>

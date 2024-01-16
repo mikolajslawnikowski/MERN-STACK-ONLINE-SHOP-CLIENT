@@ -75,6 +75,7 @@ const ProductPage = () => {
           <p>
             Average Rating: <Stars rating={calculateAverageRating(opinions)} />
           </p>
+          <p>Rating Siema: {product.rating}</p>
           <img src={product.photo} alt={product.name} />
           <p>Gender: {product.gender}</p>
           <p>Category: {product.category}</p>

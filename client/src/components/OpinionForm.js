@@ -6,8 +6,8 @@ import { FaStar } from "react-icons/fa";
 const OpinionForm = ({ id }) => {
   const { user } = useAuthContext();
   const [opinionText, setOpinionText] = useState("");
-  const [ratingValue, setRatingValue] = useState(null);
-  const [currentRating, setCurrentRating] = useState(null);
+  const [ratingValue, setRatingValue] = useState(1);
+  const [currentRating, setCurrentRating] = useState(1);
   const [ratingHover, setRatingHover] = useState(null);
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
@@ -40,7 +40,8 @@ const OpinionForm = ({ id }) => {
     }
     if (response.ok) {
       setOpinionText("");
-      setRatingValue(null);
+      setRatingValue(1);
+      setCurrentRating(1);
       setError(null);
       setEmptyFields([]);
       console.log("New Opinion added successfully!", json);

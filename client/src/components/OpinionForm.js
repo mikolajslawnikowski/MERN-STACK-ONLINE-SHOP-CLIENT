@@ -15,7 +15,7 @@ const OpinionForm = ({ id }) => {
   const { dispatch } = useOpinionsContext();
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     const opinion = {
       itemID: id,

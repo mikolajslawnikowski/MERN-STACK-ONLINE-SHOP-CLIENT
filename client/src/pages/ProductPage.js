@@ -24,6 +24,7 @@ const ProductPage = () => {
   const sortedOpinions = opinions
     ? opinions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt))
     : [];
+
   useEffect(() => {
     const fetchProduct = async () => {
       const response = await fetch(`/api/products/${id}`);

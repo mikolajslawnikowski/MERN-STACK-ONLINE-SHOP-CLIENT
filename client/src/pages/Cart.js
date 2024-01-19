@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
 import { useCartContext } from "../hooks/useCartContext";
+import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { cart, setQuantity, removeFromCart } = useCartContext();
   const [products, setProducts] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!localStorage.getItem("cart")) {
@@ -82,7 +84,12 @@ const Cart = () => {
         Total price with default shipping option:{" "}
         {(calculateTotalPrice() + 10).toFixed(2)}
       </p>
-      <button disabled={isAnyProductOverQuantity()}>DELIVERY FORM</button>{" "}
+      <button
+        disabled={isAnyProductOverQuantity()}
+        onClick={() => navigate("/delivery")}
+      >
+        DELIVERY FORM
+      </button>{" "}
     </div>
   );
 };

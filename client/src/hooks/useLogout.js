@@ -6,14 +6,11 @@ export const useLogout = () => {
   const navigate = useNavigate();
 
   const logout = () => {
-    // remove user from storage
     localStorage.removeItem("user");
     localStorage.removeItem("token");
 
-    // dispatch logout action
     dispatch({ type: "LOGOUT" });
 
-    // redirect to home page
     navigate("/");
   };
 

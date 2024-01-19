@@ -2,8 +2,6 @@ import { useProductsContext } from "../hooks/useProductsContext";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useCartContext } from "../hooks/useCartContext";
-
-// date fns
 import { format } from "date-fns";
 
 const ProductDetails = ({ product }) => {

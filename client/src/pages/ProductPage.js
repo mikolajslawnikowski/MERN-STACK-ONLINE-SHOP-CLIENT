@@ -5,7 +5,6 @@ import { useAuthContext } from "../hooks/useAuthContext";
 import { useCartContext } from "../hooks/useCartContext";
 import { format } from "date-fns";
 import Stars from "../components/Stars";
-// TEST CONTEXT
 import { useOpinionsContext } from "../hooks/useOpinionsContext";
 
 function calculateAverageRating(opinions) {
@@ -71,7 +70,7 @@ const ProductPage = () => {
   };
 
   const handleAddToCart = () => {
-    addToCart(product._id, quantity); // Add the product to the cart with the selected quantity
+    addToCart(product._id, quantity);
     setQuantity(1);
   };
 

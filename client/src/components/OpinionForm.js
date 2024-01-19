@@ -11,12 +11,9 @@ const OpinionForm = ({ id }) => {
   const [ratingHover, setRatingHover] = useState(null);
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
-  // TEST CONTEXT
   const { dispatch } = useOpinionsContext();
 
   const handleSubmit = async (e) => {
-    // e.preventDefault();
-
     const opinion = {
       itemID: id,
       authorName: user.name,
@@ -45,7 +42,6 @@ const OpinionForm = ({ id }) => {
       setError(null);
       setEmptyFields([]);
       console.log("New Opinion added successfully!", json);
-      // TEST CONTEXT
       dispatch({ type: "CREATE_OPINION", payload: json });
     }
   };

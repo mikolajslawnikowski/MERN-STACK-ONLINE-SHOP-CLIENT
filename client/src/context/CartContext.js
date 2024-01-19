@@ -4,8 +4,6 @@ export const CartContext = createContext();
 
 export const cartReducer = (state, action) => {
   switch (action.type) {
-    // case "ADD_TO_CART":
-    //   return { ...state, [action.payload]: (state[action.payload] || 0) + 1 };
     case "ADD_TO_CART":
       return {
         ...state,
@@ -48,10 +46,6 @@ export const CartContextProvider = ({ children }) => {
       window.removeEventListener("storage", handleStorageChange);
     };
   }, []);
-
-  //   const addToCart = (productId) => {
-  //     dispatch({ type: "ADD_TO_CART", payload: productId });
-  //   };
 
   const addToCart = (productId, quantity) => {
     dispatch({ type: "ADD_TO_CART", payload: { productId, quantity } });

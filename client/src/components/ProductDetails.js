@@ -1,6 +1,7 @@
 import { useProductsContext } from "../hooks/useProductsContext";
 import { Link } from "react-router-dom";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useCartContext } from "../hooks/useCartContext";
 
 // date fns
 import { format } from "date-fns";
@@ -8,6 +9,11 @@ import { format } from "date-fns";
 const ProductDetails = ({ product }) => {
   const { dispatch } = useProductsContext();
   const { user } = useAuthContext();
+  const { addToCart } = useCartContext();
+
+  const handleAddToCart = () => {
+    addToCart(product._id, 1);
+  };
 
   const handleClick = async () => {
     const response = await fetch("/api/products/" + product._id, {
@@ -21,46 +27,35 @@ const ProductDetails = ({ product }) => {
   };
 
   return (
-    <Link to={`/${product._id}`}>
-      <div className="product-details">
+    <div className="product-details">
+      <Link to={`/${product._id}`}>
         <h4>{product.name}</h4>
-        <p>
-          <strong>ID: </strong>
-          {product._id}
-        </p>
-        <p>
-          <strong>Rating: </strong>
-          {product.rating}
-        </p>
-        <img src={product.photo} alt={product.name} />
-        <p>
-          <strong>Gender: </strong>
-          {product.gender}
-        </p>
-        <p>
-          <strong>Category: </strong>
-          {product.category}
-        </p>
-        <p>
-          <strong>Description: </strong>
-          {product.shortDescription}
-        </p>
-        <p>
-          <strong>Price: </strong>
-          {product.price}
-        </p>
-        <p>
-          <strong>Quantity: </strong>
-          {product.quantity}{" "}
-        </p>
-        <p>{format(new Date(product.createdAt), "dd-LL-yyyy")}</p>
-        {user && user.admin && (
-          <span className="material-symbols-outlined" onClick={handleClick}>
-            DELETE
-          </span>
-        )}
-      </div>{" "}
-    </Link>
+      </Link>
+      <img src={product.photo} alt={product.name} />
+      <p>
+        <strong>Product price: </strong>
+        {product.price}
+      </p>
+      <p>
+        <strong>Product price with cheapest shipment: </strong>
+        {product.price + 10}
+      </p>
+      <p>
+        <strong>Description: </strong>
+        {product.shortDescription}
+      </p>
+      <p>
+        <strong>Quantity: </strong>
+        {product.quantity}
+      </p>
+      <p>{format(new Date(product.createdAt), "dd-LL-yyyy")}</p>
+      <button onClick={() => handleAddToCart(product._id)}>ADD TO CART</button>
+      {user && user.admin && (
+        <span className="material-symbols-outlined" onClick={handleClick}>
+          DELETE
+        </span>
+      )}
+    </div>
   );
 };
 

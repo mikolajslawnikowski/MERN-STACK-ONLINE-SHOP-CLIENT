@@ -17,12 +17,12 @@ const Navbar = () => {
           <h1>Online Store</h1>
         </Link>
         <nav>
+          <Link to="/cart">Cart</Link>
           {user && (
             <div>
-              <span>
-                Hello {user.name} {user.surname}
-              </span>
-              <Link to="/dashboard">Dashboard</Link>
+              <span>Hello {user.name}</span>
+
+              {user.admin && <Link to="/dashboard">Dashboard</Link>}
               <button onClick={handleClick}>Log out</button>
             </div>
           )}

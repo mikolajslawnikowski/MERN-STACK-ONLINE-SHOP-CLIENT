@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import OpinionForm from "../components/OpinionForm";
 import { useAuthContext } from "../hooks/useAuthContext";
+import { useCartContext } from "../hooks/useCartContext";
 import { format } from "date-fns";
 import Stars from "../components/Stars";
 // TEST CONTEXT
@@ -17,6 +18,8 @@ function calculateAverageRating(opinions) {
 }
 
 const ProductPage = () => {
+  const [quantity, setQuantity] = useState(1);
+  const { addToCart } = useCartContext();
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const { user } = useAuthContext();
@@ -67,6 +70,11 @@ const ProductPage = () => {
     }
   };
 
+  const handleAddToCart = () => {
+    addToCart(product._id, quantity); // Add the product to the cart with the selected quantity
+    setQuantity(1);
+  };
+
   return (
     <div>
       {product ? (
@@ -84,6 +92,23 @@ const ProductPage = () => {
           <p>Price: {product.price}</p>
           <p>quantity: {product.quantity}</p>
           <p>Date added: {format(new Date(product.createdAt), "dd-LL-yyyy")}</p>
+          <p>Delivery by post is possible</p>
+          {product.shipping2 ? (
+            <p>Delivery by courier is possible</p>
+          ) : (
+            <p>Delivery by courier is not possible</p>
+          )}{" "}
+          <select
+            value={quantity}
+            onChange={(e) => setQuantity(parseInt(e.target.value))}
+          >
+            {[...Array(product.quantity).keys()].map((value) => (
+              <option key={value + 1} value={value + 1}>
+                {value + 1}
+              </option>
+            ))}
+          </select>
+          <button onClick={handleAddToCart}>ADD TO CART</button>
           {user ? (
             <OpinionForm id={product._id} />
           ) : (

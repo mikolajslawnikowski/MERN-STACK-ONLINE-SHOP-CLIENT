@@ -21,6 +21,7 @@ import WomenPantsPage from "./pages/WomenPantsPage";
 import WomenShoesPage from "./pages/WomenShoesPage";
 import Cart from "./pages/Cart";
 import Delivery from "./pages/Delivery";
+import Profile from "./pages/Profile";
 
 function App() {
   const { user } = useAuthContext();
@@ -40,6 +41,7 @@ function App() {
               element={!user ? <Signup /> : <Navigate to="/" />}
             />
             <Route path="/cart" element={<Cart />} />
+            <Route path="/profile" element={<Profile />} />
             <Route
               path="/dashboard"
               element={user ? <Dashboard /> : <Navigate to="/" />}

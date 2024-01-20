@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCartContext } from "../hooks/useCartContext";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 const DeliveryForm = () => {
   const navigate = useNavigate();
+  const { user } = useAuthContext();
   const { cart, dispatch } = useCartContext();
   const [products, setProducts] = useState([]);
   const [isCourierAvailable, setIsCourierAvailable] = useState(true);
@@ -30,6 +32,7 @@ const DeliveryForm = () => {
 
   const handleConfirmOrder = async () => {
     const order = {
+      userID: user ? user._id : null,
       Name: form.name,
       Address: form.address,
       Email: form.email,

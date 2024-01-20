@@ -6,6 +6,10 @@ import MenCategoryButtons from "../components/MenCategoryButtons";
 
 const MenShoesPage = () => {
   const [shoes, setShoes] = useState([]);
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredShoes, setFilteredShoes] = useState([]);
   const { user } = useAuthContext();
 
   const fetchProducts = (sortOption) => {
@@ -24,8 +28,40 @@ const MenShoesPage = () => {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    let filtered = shoes;
+
+    if (minPrice) {
+      filtered = filtered.filter((shoes) => shoes.price >= minPrice);
+    }
+
+    if (maxPrice) {
+      filtered = filtered.filter((shoes) => shoes.price <= maxPrice);
+    }
+
+    if (searchTerm) {
+      filtered = filtered.filter((shoes) =>
+        shoes.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    }
+
+    setFilteredShoes(filtered);
+  }, [shoes, minPrice, maxPrice, searchTerm]);
+
   const handleSortChange = (event) => {
     fetchProducts(event.target.value);
+  };
+
+  const handleMinPriceChange = (event) => {
+    setMinPrice(event.target.value);
+  };
+
+  const handleMaxPriceChange = (event) => {
+    setMaxPrice(event.target.value);
+  };
+
+  const handleSearchChange = (event) => {
+    setSearchTerm(event.target.value);
   };
 
   return (
@@ -41,8 +77,26 @@ const MenShoesPage = () => {
         <option value="rating_asc">Rating (Low to High)</option>
         <option value="rating_desc">Rating (High to Low)</option>
       </select>
+      <input
+        type="number"
+        placeholder="Min price"
+        value={minPrice}
+        onChange={handleMinPriceChange}
+      />
+      <input
+        type="number"
+        placeholder="Max price"
+        value={maxPrice}
+        onChange={handleMaxPriceChange}
+      />
+      <input
+        type="text"
+        placeholder="Search by name"
+        value={searchTerm}
+        onChange={handleSearchChange}
+      />
       <div className="products">
-        {shoes.map((shoes) => (
+        {filteredShoes.map((shoes) => (
           <ProductDetails key={shoes.id} product={shoes} user={user} />
         ))}
       </div>

@@ -1,6 +1,5 @@
 import { useAuthContext } from "../hooks/useAuthContext";
 import { useEffect, useState } from "react";
-// import UserForm from "../components/UserForm";
 
 const Profile = () => {
   const { user } = useAuthContext();

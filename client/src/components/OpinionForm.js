@@ -64,11 +64,6 @@ const OpinionForm = ({ id }) => {
                   setCurrentRating(ratingValue);
                 }}
               />
-              {/* <FaStar
-                size={25}
-                color={ratingValue <= currentRating ? "#ffc107" : "#e4e5e9"}
-                className="star"
-              /> */}
               <FaStar
                 size={20}
                 color={
@@ -90,7 +85,9 @@ const OpinionForm = ({ id }) => {
         value={opinionText}
         className={emptyFields.includes("opinionText") ? "error" : ""}
       />
-      <button type="submit">Add opinion</button>
+      <button type="submit" disabled={!opinionText}>
+        Add opinion
+      </button>
       {error && <div className="error">{error}</div>}
     </form>
   );

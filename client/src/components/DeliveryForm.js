@@ -10,18 +10,26 @@ const DeliveryForm = () => {
   const [products, setProducts] = useState([]);
   const [isCourierAvailable, setIsCourierAvailable] = useState(true);
   const [isOrderConfirmed, setIsOrderConfirmed] = useState(false);
+  const [error, setError] = useState(null);
+  const [emptyFields, setEmptyFields] = useState([]);
   const [form, setForm] = useState({
     name: "",
     address: "",
     email: "",
     phone: "",
     delivery: "",
+    deliveryCost: 0,
   });
 
   const handleInputChange = (event) => {
+    let deliveryCost = 0;
+    if (event.target.name === "delivery") {
+      deliveryCost = event.target.value === "Post" ? 10 : 20;
+    }
     setForm({
       ...form,
       [event.target.name]: event.target.value,
+      deliveryCost,
     });
   };
 
@@ -46,10 +54,11 @@ const DeliveryForm = () => {
           price: product.price,
         };
       }),
-      TotalPrice: Object.keys(cart).reduce((total, productId) => {
-        const product = products.find((product) => product._id === productId);
-        return total + product.price * cart[productId];
-      }, 0),
+      TotalPrice:
+        Object.keys(cart).reduce((total, productId) => {
+          const product = products.find((product) => product._id === productId);
+          return total + product.price * cart[productId];
+        }, 0) + form.deliveryCost,
     };
 
     const response = await fetch("/api/orders", {
@@ -59,8 +68,16 @@ const DeliveryForm = () => {
       },
       body: JSON.stringify(order),
     });
+    const json = await response.json();
+
+    if (!response.ok) {
+      setError(json.error);
+      setEmptyFields(json.emptyFields);
+    }
 
     if (response.ok) {
+      setError(null);
+      setEmptyFields([]);
       console.log("Order created successfully");
 
       for (const item of order.Items) {
@@ -112,6 +129,15 @@ const DeliveryForm = () => {
     fetchProducts();
   }, [cart]);
 
+  const calculateTotalPrice = () => {
+    return (
+      Object.keys(cart).reduce((total, productId) => {
+        const product = products.find((product) => product._id === productId);
+        return product ? total + product.price * cart[productId] : total;
+      }, 0) + form.deliveryCost
+    );
+  };
+
   return (
     <div>
       <p>Your products:</p>
@@ -131,22 +157,42 @@ const DeliveryForm = () => {
         ) : null;
       })}
       <h2>Delivery Form</h2>
-      <form onSubmit={handleSubmit}>
+      <form className="create" onSubmit={handleSubmit}>
         <label>
           Name:
-          <input type="text" name="name" onChange={handleInputChange} />
+          <input
+            type="text"
+            name="name"
+            onChange={handleInputChange}
+            className={emptyFields.includes("name") ? "error" : ""}
+          />
         </label>
         <label>
           Address:
-          <input type="text" name="address" onChange={handleInputChange} />
+          <input
+            type="text"
+            name="address"
+            onChange={handleInputChange}
+            className={emptyFields.includes("address") ? "error" : ""}
+          />
         </label>
         <label>
           Email:
-          <input type="email" name="email" onChange={handleInputChange} />
+          <input
+            type="email"
+            name="email"
+            onChange={handleInputChange}
+            className={emptyFields.includes("email") ? "error" : ""}
+          />
         </label>
         <label>
           Phone number:
-          <input type="number" name="phone" onChange={handleInputChange} />
+          <input
+            type="number"
+            name="phone"
+            onChange={handleInputChange}
+            className={emptyFields.includes("phone") ? "error" : ""}
+          />
         </label>
         <label>
           Delivery method:
@@ -158,7 +204,7 @@ const DeliveryForm = () => {
                 name="delivery"
                 onChange={handleInputChange}
               />{" "}
-              Post
+              Post (+10)
             </label>
             <label>
               <input
@@ -168,7 +214,7 @@ const DeliveryForm = () => {
                 disabled={!isCourierAvailable}
                 onChange={handleInputChange}
               />{" "}
-              Courier
+              Courier (+20)
             </label>
           </div>
         </label>
@@ -178,8 +224,10 @@ const DeliveryForm = () => {
         <div>
           <p>Confirm your order</p>
           <button onClick={handleConfirmOrder}>Confirm</button>
+          {error && <div className="error">{error}</div>}
         </div>
       )}
+      <p>TOTAL PRICE: {calculateTotalPrice()}</p>
     </div>
   );
 };

@@ -79,7 +79,7 @@ const Cart = () => {
           </div>
         ) : null;
       })}
-      <p>Total price: {calculateTotalPrice().toFixed(2)}</p>{" "}
+      {/* <p>Total price: {calculateTotalPrice().toFixed(2)}</p>{" "}
       <p>
         Total price with default shipping option:{" "}
         {(calculateTotalPrice() + 10).toFixed(2)}
@@ -89,7 +89,24 @@ const Cart = () => {
         onClick={() => navigate("/delivery")}
       >
         DELIVERY FORM
-      </button>{" "}
+      </button>{" "} */}
+      {Object.keys(cart).length === 0 ? (
+        <p>Cart is empty</p>
+      ) : (
+        <>
+          <p>Total price: {calculateTotalPrice().toFixed(2)}</p>{" "}
+          <p>
+            Total price with default shipping option:{" "}
+            {(calculateTotalPrice() + 10).toFixed(2)}
+          </p>
+          <button
+            disabled={isAnyProductOverQuantity()}
+            onClick={() => navigate("/delivery")}
+          >
+            DELIVERY FORM
+          </button>{" "}
+        </>
+      )}
     </div>
   );
 };

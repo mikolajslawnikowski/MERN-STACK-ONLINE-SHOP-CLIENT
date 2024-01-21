@@ -7,14 +7,14 @@ import { format } from "date-fns";
 import Stars from "../components/Stars";
 import { useOpinionsContext } from "../hooks/useOpinionsContext";
 
-function calculateAverageRating(opinions) {
-  if (!opinions) {
-    return 0;
-  }
+// function calculateAverageRating(opinions) {
+//   if (!opinions) {
+//     return 0;
+//   }
 
-  const total = opinions.reduce((acc, opinion) => acc + opinion.ratingValue, 0);
-  return Math.round((total / opinions.length) * 2) / 2;
-}
+//   const total = opinions.reduce((acc, opinion) => acc + opinion.ratingValue, 0);
+//   return Math.round((total / opinions.length) * 2) / 2;
+// }
 
 const ProductPage = () => {
   const [quantity, setQuantity] = useState(1);
@@ -81,9 +81,9 @@ const ProductPage = () => {
           <p>Name: {product.name}</p>
           <p>ID: {product._id}</p>
           <p>
-            Average Rating: <Stars rating={calculateAverageRating(opinions)} />
+            Average Rating:{" "}
+            <Stars rating={Math.round(product.rating * 2) / 2} />{" "}
           </p>
-          <p>Rating Siema: {product.rating}</p>
           <img src={product.photo} alt={product.name} />
           <p>Gender: {product.gender}</p>
           <p>Category: {product.category}</p>
@@ -97,17 +97,24 @@ const ProductPage = () => {
           ) : (
             <p>Delivery by courier is not possible</p>
           )}{" "}
-          <select
-            value={quantity}
-            onChange={(e) => setQuantity(parseInt(e.target.value))}
-          >
-            {[...Array(product.quantity).keys()].map((value) => (
-              <option key={value + 1} value={value + 1}>
-                {value + 1}
-              </option>
-            ))}
-          </select>
-          <button onClick={handleAddToCart}>ADD TO CART</button>
+          {product.quantity > 0 ? (
+            <div>
+              {" "}
+              <select
+                value={quantity}
+                onChange={(e) => setQuantity(parseInt(e.target.value))}
+              >
+                {[...Array(product.quantity).keys()].map((value) => (
+                  <option key={value + 1} value={value + 1}>
+                    {value + 1}
+                  </option>
+                ))}
+              </select>
+              <button onClick={handleAddToCart}>ADD TO CART</button>
+            </div>
+          ) : (
+            <p>PRODUCT IS OUT OF STOCK</p>
+          )}
           {user ? (
             <OpinionForm id={product._id} />
           ) : (

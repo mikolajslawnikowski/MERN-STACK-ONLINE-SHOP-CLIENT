@@ -47,7 +47,13 @@ const ProductDetails = ({ product }) => {
         {product.quantity}
       </p>
       <p>{format(new Date(product.createdAt), "dd-LL-yyyy")}</p>
-      <button onClick={() => handleAddToCart(product._id)}>ADD TO CART</button>
+      {product.quantity > 0 ? (
+        <button onClick={() => handleAddToCart(product._id)}>
+          ADD TO CART
+        </button>
+      ) : (
+        <p>PRODUCT IS OUT OF STOCK</p>
+      )}{" "}
       {user && user.admin && (
         <span className="material-symbols-outlined" onClick={handleClick}>
           DELETE

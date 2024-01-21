@@ -28,6 +28,8 @@ export const AuthContextProvider = ({ children }) => {
 
       if (response.ok) {
         dispatch({ type: "LOGIN", payload: json });
+      } else {
+        localStorage.removeItem("user");
       }
     };
 

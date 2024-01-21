@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { useCartContext } from "../hooks/useCartContext";
+import { useProductsContext } from "../hooks/useProductsContext";
 import { useNavigate } from "react-router-dom";
 
 const Cart = () => {
   const { cart, setQuantity, removeFromCart } = useCartContext();
-  const [products, setProducts] = useState([]);
+  const { products, dispatch } = useProductsContext();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -17,7 +18,10 @@ const Cart = () => {
     const fetchProducts = async () => {
       const response = await fetch("/api/products");
       const data = await response.json();
-      setProducts(data);
+
+      if (response.ok) {
+        dispatch({ type: "SET_PRODUCTS", payload: data });
+      }
     };
 
     fetchProducts();
@@ -79,17 +83,6 @@ const Cart = () => {
           </div>
         ) : null;
       })}
-      {/* <p>Total price: {calculateTotalPrice().toFixed(2)}</p>{" "}
-      <p>
-        Total price with default shipping option:{" "}
-        {(calculateTotalPrice() + 10).toFixed(2)}
-      </p>
-      <button
-        disabled={isAnyProductOverQuantity()}
-        onClick={() => navigate("/delivery")}
-      >
-        DELIVERY FORM
-      </button>{" "} */}
       {Object.keys(cart).length === 0 ? (
         <p>Cart is empty</p>
       ) : (
